@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "SmartHealRunverve",
+    "slug": "smarthealrunverve",
+    "version": "1.0.0",
+    "scheme": "smarthealrunverve",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.smarthealrunverve.app"
+    },
+    "android": {
+      "package": "com.smarthealrunverve.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

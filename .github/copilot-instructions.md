@@ -1,0 +1,9 @@
+- [x] Verify that the copilot-instructions.md file in the .github directory is created.
+- [x] Clarify Project Requirements (React Native + Expo CLI).
+- [x] Scaffold the Project (manual Expo TypeScript scaffold in current folder).
+- [x] Customize the Project (basic welcome screen in App.tsx).
+- [x] Install Required Extensions (none requested).
+- [x] Compile the Project (npm run lint).
+- [x] Create and Run Task (task "npm: start" added; run failed on Node v24 due to invalid path—retry with Node 18/20).
+- [x] Launch the Project (using Node 18 runtime; Expo dev server starts with `npm run start`).
+- [x] Ensure Documentation is Complete (README updated with Node version guidance).
