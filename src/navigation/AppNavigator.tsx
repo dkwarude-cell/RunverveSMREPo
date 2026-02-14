@@ -13,7 +13,7 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
-  const { user, isLoading } = useSelector((s: RootState) => s.auth);
+  const { user, isAuthenticated, loading } = useSelector((s: RootState) => s.auth);
   const profile = useSelector((s: RootState) => s.user.profile);
   const [isReady, setIsReady] = useState(false);
 
@@ -23,7 +23,7 @@ const AppNavigator: React.FC = () => {
     return () => clearTimeout(t);
   }, []);
 
-  if (!isReady || isLoading) {
+  if (!isReady || loading) {
     return <LoadingSpinner fullScreen message="Loading SmartHeal..." />;
   }
 
@@ -32,10 +32,13 @@ const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* DEV: skip auth — go straight to Main */}
-        <Stack.Screen name="Main" component={MainNavigator} />
-        <Stack.Screen name="Auth" component={AuthNavigator} />
-        <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+        {!isAuthenticated ? (
+          <Stack.Screen name="Auth" component={AuthNavigator} />
+        ) : !hasCompletedOnboarding ? (
+          <Stack.Screen name="Onboarding" component={OnboardingNavigator} />
+        ) : (
+          <Stack.Screen name="Main" component={MainNavigator} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

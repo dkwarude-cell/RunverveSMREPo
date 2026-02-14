@@ -4,9 +4,11 @@ import { SessionConfig } from '../models/Session';
 
 // ─── Auth Stack ──────────────────────────────────────────
 export type AuthStackParamList = {
+  Welcome: undefined;
   Login: undefined;
   Signup: undefined;
   ForgotPassword: undefined;
+  PhoneVerification: { phoneNumber: string; userId: string };
   BiometricSetup: undefined;
 };
 

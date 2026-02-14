@@ -1,25 +1,15 @@
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  sendPasswordResetEmail,
-  onAuthStateChanged as firebaseOnAuthStateChanged,
-  User as FirebaseUser,
-  updateProfile,
-} from 'firebase/auth';
-import { getFirebaseApp } from '../../config/firebase.config';
 import { User } from '../../models/User';
 
-function getAuthInstance() {
-  return getAuth(getFirebaseApp());
-}
+/**
+ * DEV auth service — accepts any email/password for development.
+ * Replace with real Firebase auth in production.
+ */
 
-function firebaseUserToUser(fbUser: FirebaseUser): User {
+function createMockUser(email: string, name?: string): User {
   return {
-    id: fbUser.uid,
-    name: fbUser.displayName ?? '',
-    email: fbUser.email ?? '',
+    id: 'dev-user-' + Date.now(),
+    name: name ?? email.split('@')[0],
+    email,
     profileType: 'wellness',
     age: 0,
     weight: 0,
@@ -27,45 +17,39 @@ function firebaseUserToUser(fbUser: FirebaseUser): User {
     gender: 'prefer_not_to_say',
     activityLevel: 'moderately_active',
     interests: [],
-    onboardingComplete: false,
-    avatarUrl: fbUser.photoURL ?? undefined,
+    onboardingComplete: true,
+    avatarUrl: undefined,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
 }
 
-export async function login(email: string, password: string): Promise<User> {
-  const auth = getAuthInstance();
-  const credential = await signInWithEmailAndPassword(auth, email, password);
-  return firebaseUserToUser(credential.user);
+export async function login(email: string, _password: string): Promise<User> {
+  // Simulate network delay
+  await new Promise((r) => setTimeout(r, 500));
+  return createMockUser(email);
 }
 
-export async function signup(email: string, password: string, name: string): Promise<User> {
-  const auth = getAuthInstance();
-  const credential = await createUserWithEmailAndPassword(auth, email, password);
-  await updateProfile(credential.user, { displayName: name });
-  return firebaseUserToUser(credential.user);
+export async function signup(email: string, _password: string, name: string): Promise<User> {
+  await new Promise((r) => setTimeout(r, 500));
+  return createMockUser(email, name);
 }
 
 export async function logout(): Promise<void> {
-  const auth = getAuthInstance();
-  await signOut(auth);
+  await new Promise((r) => setTimeout(r, 200));
 }
 
-export async function resetPassword(email: string): Promise<void> {
-  const auth = getAuthInstance();
-  await sendPasswordResetEmail(auth, email);
+export async function resetPassword(_email: string): Promise<void> {
+  await new Promise((r) => setTimeout(r, 300));
 }
 
 export function getCurrentUser(): User | null {
-  const auth = getAuthInstance();
-  const fbUser = auth.currentUser;
-  return fbUser ? firebaseUserToUser(fbUser) : null;
+  // DEV: no persistent session
+  return null;
 }
 
 export function onAuthStateChanged(callback: (user: User | null) => void): () => void {
-  const auth = getAuthInstance();
-  return firebaseOnAuthStateChanged(auth, (fbUser) => {
-    callback(fbUser ? firebaseUserToUser(fbUser) : null);
-  });
+  // DEV: no-op listener
+  callback(null);
+  return () => {};
 }
