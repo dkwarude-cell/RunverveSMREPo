@@ -16,9 +16,9 @@ const AchievementsScreen: React.FC = () => {
         const data = await getAchievements();
         setAchievements(data);
       } catch {
-        const fallback: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def, i) => ({
+        const fallback: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def) => ({
           ...def,
-          id: String(i),
+          id: `${def.type}_${def.title.replace(/\s+/g, '_').toLowerCase()}`,
           userId: '',
           progress: 0,
           current: 0,

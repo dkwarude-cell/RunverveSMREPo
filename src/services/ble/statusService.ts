@@ -24,7 +24,7 @@ export function subscribeToDeviceStatus(
       }
       if (characteristic?.value) {
         const raw = atob(characteristic.value);
-        const bytes = Array.from(raw).map((c) => (c as string).charCodeAt(0));
+        const bytes = Array.from(raw).map((c) => c.charCodeAt(0));
 
         if (bytes[1] === BLE_STATUS_TYPES.DEVICE_STATUS) {
           callback({
