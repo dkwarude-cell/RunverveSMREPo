@@ -18,6 +18,9 @@ import { AuthStackParamList } from '../../navigation/types';
 import { ArrowLeft, Mail, Lock, Eye, EyeOff, Heart } from 'lucide-react-native';
 import { theme } from '../../styles/theme';
 import { login as authLogin } from '../../services/auth/authService';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { setUser } from '../../store/slices/authSlice';
 
 type LoginScreenNavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
 
@@ -26,6 +29,7 @@ interface Props {
 }
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -67,6 +71,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     setLoading(true);
     try {
       const user = await authLogin(email.trim(), password);
+      dispatch(setUser(user));
       navigation.navigate('PhoneVerification', {
         phoneNumber: user.email ?? email.trim(),
         userId: user.id,
