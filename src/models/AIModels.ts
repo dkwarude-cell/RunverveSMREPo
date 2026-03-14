@@ -2,6 +2,7 @@ export interface Keypoint {
   x: number;
   y: number;
   confidence: number;
+  score?: number;
   name: string;
 }
 
@@ -30,6 +31,9 @@ export interface PlacementZone {
   keypoints: number[]; // indices into KEYPOINT_NAMES
   offset: { x: number; y: number };
   size: { width: number; height: number };
+  x?: number;
+  y?: number;
+  radius?: number;
 }
 
 export const PLACEMENT_ZONES: Record<string, PlacementZone> = {

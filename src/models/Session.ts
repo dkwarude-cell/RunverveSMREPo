@@ -55,6 +55,8 @@ export interface ProtocolTemplate {
 export interface SessionFilters {
   dateFrom?: number;
   dateTo?: number;
+  startDate?: Date;
+  endDate?: Date;
   bodyArea?: BodyArea;
   mode?: SessionMode;
 }

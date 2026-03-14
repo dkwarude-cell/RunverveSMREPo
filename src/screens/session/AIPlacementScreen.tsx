@@ -10,7 +10,7 @@ interface Props { navigation: any; route: { params: { config: SessionConfig } } 
 
 const AIPlacementScreen: React.FC<Props> = ({ navigation, route }) => {
   const { config } = route.params;
-  const { isModelLoaded, isProcessing, loadModel } = useAI();
+  const { modelLoaded, loading: isProcessing, loadModel } = useAI();
   const [validated, setValidated] = useState(false);
   const [accuracy, setAccuracy] = useState<number | null>(null);
 
@@ -37,7 +37,7 @@ const AIPlacementScreen: React.FC<Props> = ({ navigation, route }) => {
       <Text style={styles.subtitle}>Target: {config.bodyArea.replace(/_/g, ' ')}</Text>
 
       <View style={styles.cameraPlaceholder}>
-        {!isModelLoaded ? (
+        {!modelLoaded ? (
           <LoadingSpinner message="Loading AI model..." />
         ) : (
           <View style={styles.cameraBox}>
@@ -58,7 +58,7 @@ const AIPlacementScreen: React.FC<Props> = ({ navigation, route }) => {
       <View style={styles.actions}>
         {!validated ? (
           <>
-            <Button title="Validate Placement" onPress={handleValidated} disabled={!isModelLoaded} />
+            <Button title="Validate Placement" onPress={handleValidated} disabled={!modelLoaded} />
             <Button title="Skip" onPress={handleSkip} variant="outline" style={styles.skipBtn} />
           </>
         ) : (

@@ -15,6 +15,8 @@ const SKELETON_PAIRS: [number, number][] = [
   [5, 11], [6, 12], [11, 12], [11, 13], [13, 15], [12, 14], [14, 16],
 ];
 
+const getKeypointScore = (kp: Keypoint): number => kp.score ?? kp.confidence;
+
 const BodyOverlay: React.FC<Props> = ({ keypoints, width, height }) => {
   if (keypoints.length === 0) return null;
 
@@ -25,7 +27,7 @@ const BodyOverlay: React.FC<Props> = ({ keypoints, width, height }) => {
         {SKELETON_PAIRS.map(([a, b], i) => {
           const kpA = keypoints[a];
           const kpB = keypoints[b];
-          if (!kpA || !kpB || kpA.score < 0.3 || kpB.score < 0.3) return null;
+          if (!kpA || !kpB || getKeypointScore(kpA) < 0.3 || getKeypointScore(kpB) < 0.3) return null;
           return (
             <Line
               key={`line-${i}`}
@@ -38,7 +40,7 @@ const BodyOverlay: React.FC<Props> = ({ keypoints, width, height }) => {
 
         {/* Keypoints */}
         {keypoints.map((kp, i) => {
-          if (kp.score < 0.3) return null;
+          if (getKeypointScore(kp) < 0.3) return null;
           return (
             <Circle
               key={`kp-${i}`}

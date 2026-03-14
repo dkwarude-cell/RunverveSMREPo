@@ -4,6 +4,9 @@ export interface Device {
   id: string;
   userId: string;
   deviceName: string;
+  name?: string;
+  model?: string;
+  batteryLevel?: number;
   serialNumber: string;
   firmwareVersion: string;
   pairedAt: number;

@@ -5,6 +5,8 @@ export type ActivityLevel = 'sedentary' | 'lightly_active' | 'moderately_active'
 export interface User {
   id: string;
   name: string;
+  displayName?: string;
+  photoURL?: string;
   email: string;
   profileType: ProfileType;
   age: number;
@@ -15,6 +17,9 @@ export interface User {
   interests: string[];
   onboardingComplete: boolean;
   avatarUrl?: string;
+  totalSessions?: number;
+  streak?: number;
+  level?: number;
   createdAt: number;
   updatedAt: number;
 }

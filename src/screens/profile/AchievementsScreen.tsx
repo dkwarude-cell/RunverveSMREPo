@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { theme } from '../../styles/theme';
 import { Achievement, ACHIEVEMENT_DEFINITIONS } from '../../models/Achievement';
-import { getUserAchievements } from '../../services/gamification/achievementService';
+import { getAchievements } from '../../services/gamification/achievementService';
 import AchievementBadge from '../../components/profile/AchievementBadge';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 
@@ -13,14 +13,18 @@ const AchievementsScreen: React.FC = () => {
   useEffect(() => {
     (async () => {
       try {
-        const data = await getUserAchievements('current');
-        // Merge with definitions to include locked ones
-        const merged: Achievement[] = ACHIEVEMENT_DEFINITIONS.map(def => {
-          const found = data.find(a => a.id === def.id);
-          return found || def;
-        });
-        setAchievements(merged);
-      } catch { setAchievements(ACHIEVEMENT_DEFINITIONS); }
+        const data = await getAchievements();
+        setAchievements(data);
+      } catch {
+        const fallback: Achievement[] = ACHIEVEMENT_DEFINITIONS.map((def) => ({
+          ...def,
+          id: `${def.type}_${def.title.replace(/\s+/g, '_').toLowerCase()}`,
+          userId: '',
+          progress: 0,
+          current: 0,
+        }));
+        setAchievements(fallback);
+      }
       setLoading(false);
     })();
   }, []);

@@ -67,3 +67,5 @@ export function getProtocolById(id: string): ProtocolTemplate | undefined {
 export function getAllProtocols(): ProtocolTemplate[] {
   return PROTOCOLS;
 }
+
+export const protocolTemplates = PROTOCOLS;

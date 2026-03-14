@@ -16,7 +16,6 @@ const AuthNavigator: React.FC = () => (
     screenOptions={{
       headerShown: false,
       cardStyle: { backgroundColor: '#F7F9FC' },
-      animationEnabled: true,
       gestureEnabled: true,
     }}
   >

@@ -11,7 +11,7 @@ const GoalsScreen: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      const g = await getGoals('current');
+      const g = await getGoals();
       setGoals(g);
     })();
   }, []);
@@ -36,8 +36,8 @@ const GoalsScreen: React.FC = () => {
               <Text style={styles.goalType}>{item.goalType.replace(/_/g, ' ')}</Text>
               <Text style={[styles.status, item.status === 'completed' && styles.completedStatus]}>{item.status}</Text>
             </View>
-            <ProgressBar progress={item.progress / item.target} label={`${item.progress} / ${item.target}`} />
-            <Text style={styles.deadline}>Due: {new Date(item.deadline).toLocaleDateString()}</Text>
+            <ProgressBar progress={item.progress / 100} label={`${item.progress}%`} />
+            <Text style={styles.deadline}>Due: {new Date(item.targetDate).toLocaleDateString()}</Text>
           </View>
         )}
         contentContainerStyle={styles.list}
