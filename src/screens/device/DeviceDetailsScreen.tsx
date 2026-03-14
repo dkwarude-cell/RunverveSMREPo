@@ -26,8 +26,8 @@ const DeviceDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.name}>{device.name}</Text>
-      <ConnectionStatus connected={isConnected} deviceName={device.name} />
+      <Text style={styles.name}>{device.name ?? device.deviceName}</Text>
+      <ConnectionStatus connected={isConnected} deviceName={device.name ?? device.deviceName} />
 
       <View style={styles.infoCard}>
         <InfoRow label="Device ID" value={device.id} />
@@ -46,7 +46,7 @@ const DeviceDetailsScreen: React.FC<Props> = ({ navigation, route }) => {
         {isConnected ? (
           <Button title="Disconnect" variant="outline" onPress={disconnect} />
         ) : (
-          <Button title="Connect" onPress={() => connect(deviceId)} />
+          <Button title="Connect" onPress={() => connect(device)} />
         )}
         <Button title="Forget Device" variant="outline" onPress={() => { /* TODO: remove from paired */ navigation.goBack(); }} style={styles.forgetBtn} />
       </View>

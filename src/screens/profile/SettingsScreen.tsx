@@ -11,8 +11,8 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useDispatch();
   const settings = useSelector((s: RootState) => s.settings);
 
-  const toggle = (key: string) => {
-    dispatch(updateSetting({ key, value: !(settings as any)[key] }));
+  const toggle = (key: keyof typeof settings) => {
+    dispatch(updateSetting({ [key]: !(settings as any)[key] } as any));
   };
 
   return (
@@ -20,22 +20,22 @@ const SettingsScreen: React.FC<Props> = ({ navigation }) => {
       <Text style={styles.title}>Settings</Text>
 
       <Section title="Notifications">
-        <ToggleRow label="Push Notifications" value={settings.notificationsEnabled} onToggle={() => toggle('notificationsEnabled')} />
+        <ToggleRow label="Push Notifications" value={settings.pushNotifications} onToggle={() => toggle('pushNotifications')} />
         <ToggleRow label="Session Reminders" value={settings.sessionReminders} onToggle={() => toggle('sessionReminders')} />
       </Section>
 
       <Section title="Security">
-        <ToggleRow label="Biometric Login" value={settings.biometricEnabled} onToggle={() => toggle('biometricEnabled')} />
+        <ToggleRow label="AI Placement Guidance" value={settings.aiPlacementGuidance} onToggle={() => toggle('aiPlacementGuidance')} />
       </Section>
 
       <Section title="Voice">
-        <ToggleRow label="Voice Commands" value={settings.voiceEnabled} onToggle={() => toggle('voiceEnabled')} />
-        <ToggleRow label="Haptic Feedback" value={settings.hapticFeedback} onToggle={() => toggle('hapticFeedback')} />
+        <ToggleRow label="Voice Commands" value={settings.voiceCommandsEnabled} onToggle={() => toggle('voiceCommandsEnabled')} />
+        <ToggleRow label="Voice Feedback" value={settings.voiceFeedbackEnabled} onToggle={() => toggle('voiceFeedbackEnabled')} />
       </Section>
 
       <Section title="Data">
-        <ToggleRow label="Auto-sync" value={settings.autoSync} onToggle={() => toggle('autoSync')} />
-        <ToggleRow label="Analytics" value={settings.analyticsEnabled} onToggle={() => toggle('analyticsEnabled')} />
+        <ToggleRow label="Achievement Notifications" value={settings.achievementNotifications} onToggle={() => toggle('achievementNotifications')} />
+        <ToggleRow label="Wake Word Detection" value={settings.wakeWordDetection} onToggle={() => toggle('wakeWordDetection')} />
       </Section>
     </ScrollView>
   );

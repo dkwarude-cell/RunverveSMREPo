@@ -11,9 +11,9 @@ interface Props {
 const AchievementBadge: React.FC<Props> = ({ achievement, size = 'md' }) => {
   const isSm = size === 'sm';
   return (
-    <View style={[styles.badge, isSm && styles.badgeSm, achievement.unlockedAt && styles.unlocked]}>
+    <View style={[styles.badge, isSm && styles.badgeSm, !!achievement.unlockedAt && styles.unlocked]}>
       <Text style={[styles.icon, isSm && styles.iconSm]}>{achievement.icon}</Text>
-      <Text style={[styles.name, isSm && styles.nameSm]} numberOfLines={1}>{achievement.name}</Text>
+      <Text style={[styles.name, isSm && styles.nameSm]} numberOfLines={1}>{achievement.name ?? achievement.title}</Text>
       {!achievement.unlockedAt && (
         <View style={styles.lockOverlay}><Text style={styles.lock}>🔒</Text></View>
       )}

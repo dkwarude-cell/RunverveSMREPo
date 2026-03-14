@@ -13,9 +13,9 @@ interface Props {
 const PlacementZoneHighlight: React.FC<Props> = ({ zone, width, height }) => {
   if (!zone) return null;
 
-  const cx = zone.x * width;
-  const cy = zone.y * height;
-  const r = zone.radius * Math.min(width, height);
+  const cx = (zone.x ?? 0.5) * width;
+  const cy = (zone.y ?? 0.5) * height;
+  const r = (zone.radius ?? 0.15) * Math.min(width, height);
 
   return (
     <View style={[StyleSheet.absoluteFill, { width, height }]} pointerEvents="none">

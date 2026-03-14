@@ -5,6 +5,7 @@ export interface Achievement {
   userId: string;
   type: AchievementType;
   title: string;
+  name?: string;
   description: string;
   icon: string;
   unlockedAt?: number;

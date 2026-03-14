@@ -8,19 +8,22 @@ import Button from '../../components/common/Button';
 interface Props { navigation: any }
 
 const DeviceScanScreen: React.FC<Props> = ({ navigation }) => {
-  const { discoveredDevices, isScanning, scanForDevices, connect } = useDevice();
+  const { discoveredDevices, scanning, startScan, connect, pairedDevices } = useDevice();
 
-  useEffect(() => { scanForDevices(); }, []);
+  useEffect(() => { startScan(); }, []);
 
   const handleSelect = async (deviceId: string) => {
-    await connect(deviceId);
+    const device = discoveredDevices.find(d => d.id === deviceId);
+    if (device) {
+      await connect({ id: device.id, userId: '', deviceName: device.name ?? 'Unknown', serialNumber: '', firmwareVersion: '', pairedAt: Date.now(), lastConnected: Date.now(), autoReconnect: false });
+    }
     navigation.navigate('DevicePairing', { deviceId });
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Scanning for Devices</Text>
-      {isScanning && (
+      {scanning && (
         <View style={styles.scanningRow}>
           <ActivityIndicator color={theme.colors.primary} />
           <Text style={styles.scanningText}>Searching nearby...</Text>
@@ -35,11 +38,11 @@ const DeviceScanScreen: React.FC<Props> = ({ navigation }) => {
         )}
         contentContainerStyle={styles.list}
         ListEmptyComponent={
-          !isScanning ? <Text style={styles.empty}>No devices found. Make sure your SmartHeal device is turned on.</Text> : null
+          !scanning ? <Text style={styles.empty}>No devices found. Make sure your SmartHeal device is turned on.</Text> : null
         }
       />
 
-      <Button title={isScanning ? 'Scanning...' : 'Scan Again'} onPress={scanForDevices} disabled={isScanning} style={styles.scanBtn} />
+      <Button title={scanning ? 'Scanning...' : 'Scan Again'} onPress={startScan} disabled={scanning} style={styles.scanBtn} />
     </View>
   );
 };

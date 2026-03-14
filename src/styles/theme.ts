@@ -8,6 +8,8 @@ export const theme = {
     surface: '#FFFFFF',
     error: '#E63946',
     warning: '#F9C74F',
+    success: '#10B981',
+    border: '#E5E7EB',
     text: {
       primary: '#1A1A1A',
       secondary: '#6B7280',

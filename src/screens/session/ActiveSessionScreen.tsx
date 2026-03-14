@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
-import { useSelector } from 'react-redux';
 import { theme } from '../../styles/theme';
 import { useSession } from '../../store/hooks/useSession';
 import { useDevice } from '../../store/hooks/useDevice';
 import SessionTimer from '../../components/session/SessionTimer';
 import IntensityControl from '../../components/session/IntensityControl';
 import SessionControls from '../../components/session/SessionControls';
-import { RootState } from '../../store';
 import { SessionConfig } from '../../models/Session';
 
 interface Props { navigation: any; route: { params: { config: SessionConfig } } }
@@ -15,40 +13,42 @@ interface Props { navigation: any; route: { params: { config: SessionConfig } } 
 const ActiveSessionScreen: React.FC<Props> = ({ navigation, route }) => {
   const { config } = route.params;
   const {
-    isActive, isPaused, elapsedSeconds, intensity,
-    startSession, pauseSession, resumeSession, stopSession,
-    updateIntensity, tickSession,
+    sessionState, timeRemaining, currentIntensity,
+    start, pause, resume, stop, setIntensity, timerTick,
   } = useSession();
   const { connectedDevice } = useDevice();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const isActive = sessionState === 'active';
+  const isPaused = sessionState === 'paused';
+
   // Start session on mount
   useEffect(() => {
-    startSession(config);
+    start(config);
   }, []);
 
   // Tick timer
   useEffect(() => {
     if (isActive && !isPaused) {
-      timerRef.current = setInterval(() => tickSession(), 1000);
+      timerRef.current = setInterval(() => timerTick(), 1000);
     }
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [isActive, isPaused]);
 
   // Auto-stop when duration reached
   useEffect(() => {
-    if (isActive && elapsedSeconds >= config.duration * 60) {
+    if (isActive && timeRemaining <= 0) {
       handleStop();
     }
-  }, [elapsedSeconds]);
+  }, [timeRemaining]);
 
-  const handlePause = () => isPaused ? resumeSession() : pauseSession();
+  const handlePause = () => isPaused ? resume() : pause();
 
   const handleStop = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
-    stopSession();
-    navigation.replace('SessionComplete', { config, elapsedSeconds, intensity });
-  }, [elapsedSeconds, intensity]);
+    stop();
+    navigation.replace('SessionComplete', { config, elapsedSeconds: config.duration * 60 - timeRemaining, intensity: currentIntensity });
+  }, [timeRemaining, currentIntensity]);
 
   const confirmStop = () => {
     Alert.alert('End Session', 'Are you sure you want to end this session?', [
@@ -56,8 +56,6 @@ const ActiveSessionScreen: React.FC<Props> = ({ navigation, route }) => {
       { text: 'End', style: 'destructive', onPress: handleStop },
     ]);
   };
-
-  const remainingSeconds = Math.max(0, config.duration * 60 - elapsedSeconds);
 
   return (
     <View style={styles.container}>
@@ -69,26 +67,26 @@ const ActiveSessionScreen: React.FC<Props> = ({ navigation, route }) => {
 
       {/* Timer */}
       <View style={styles.timerSection}>
-        <SessionTimer remainingSeconds={remainingSeconds} totalSeconds={config.duration * 60} />
+        <SessionTimer timeRemaining={timeRemaining} isActive={isActive} />
       </View>
 
       {/* Intensity */}
       <View style={styles.intensitySection}>
         <Text style={styles.sectionLabel}>Intensity</Text>
-        <IntensityControl value={intensity} onChange={updateIntensity} />
+        <IntensityControl intensity={currentIntensity} onChange={setIntensity} />
       </View>
 
       {/* Device Status */}
       {connectedDevice && (
         <View style={styles.deviceInfo}>
-          <Text style={styles.deviceText}>🔗 {connectedDevice.name}</Text>
+          <Text style={styles.deviceText}>🔗 {connectedDevice.name ?? connectedDevice.deviceName}</Text>
         </View>
       )}
 
       {/* Controls */}
       <SessionControls
-        state={isPaused ? 'paused' : isActive ? 'running' : 'idle'}
-        onStart={() => startSession(config)}
+        state={isPaused ? 'paused' : isActive ? 'active' : 'idle'}
+        onStart={() => start(config)}
         onPause={handlePause}
         onResume={handlePause}
         onStop={confirmStop}

@@ -47,7 +47,7 @@ const SessionConfigScreen: React.FC<Props> = ({ navigation }) => {
 
       {/* Body Area */}
       <Text style={styles.label}>Target Area</Text>
-      <BodyAreaSelector selectedArea={bodyArea} onSelect={setBodyArea} />
+      <BodyAreaSelector selected={bodyArea} onSelect={setBodyArea} />
 
       {/* Protocol */}
       <Text style={styles.label}>Protocol (optional)</Text>
@@ -80,7 +80,7 @@ const SessionConfigScreen: React.FC<Props> = ({ navigation }) => {
 
       {/* Intensity */}
       <Text style={styles.label}>Starting Intensity</Text>
-      <IntensityControl value={intensity} onChange={setIntensity} />
+      <IntensityControl intensity={intensity} onChange={setIntensity} />
 
       <Button title="Continue to Placement" onPress={handleStart} disabled={!bodyArea} style={styles.startBtn} />
     </ScrollView>
