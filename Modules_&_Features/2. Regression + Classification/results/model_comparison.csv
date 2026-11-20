@@ -1,0 +1,4 @@
+Model,Average Accuracy,Average R2,Average MAE,Average MSE
+Gradient Boosting,1.0,0.9283,2.5445,23.9494
+Linear,0.9492,0.5332,9.1602,321.7135
+Random Forest,0.9997,0.9761,1.5798,9.6135

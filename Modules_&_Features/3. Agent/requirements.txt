@@ -1,0 +1,18 @@
+# Google ADK agent + API server
+google-adk>=1.0.0
+google-genai>=0.3.0
+google-cloud-aiplatform>=1.60.0
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+python-multipart>=0.0.9
+python-dotenv>=1.0.0
+requests>=2.31.0
+
+# Random Forest model (must match the versions it was trained with)
+scikit-learn==1.4.2
+numpy==1.26.4
+pandas==2.2.2
+joblib==1.4.2
+
+# ResNet50 model: torch + torchvision are installed separately (CPU build) in the Dockerfile
+pillow>=10.0.0

@@ -1,0 +1,14 @@
+Model,Output,Type,MAE,MSE,R2,Accuracy
+Linear,Heat_Temperature_C,Regression,1.615323439265368,3.9601351983583117,0.5514465639478523,
+Linear,Heat_Duration_Min,Regression,4.540411093348557,30.604822337985265,0.4617902969049076,
+Linear,Vibration_Frequency_Hz,Regression,15.686674251939651,503.07425445393477,0.3412942052335559,
+Linear,Vibration_Amplitude_mm,Regression,0.3303211611936347,0.1533415382205322,0.36646861638549255,
+Linear,Vibration_Duration_Min,Regression,2.136888095629848,7.147128542656616,0.6303156258916964,
+Linear,TENS_Frequency_Hz,Regression,20.626423622140784,827.3016717382604,0.53609555251914,
+Linear,TENS_Pulse_Width_us,Regression,24.102468047322592,1163.5911467206001,0.729763152712749,
+Linear,TENS_Duration_Min,Regression,4.24294319201504,37.87582958503939,0.6480699183778404,
+Linear,Heat_Setting,Classification,,,,0.8141666666666667
+Linear,Vibration_Pattern,Classification,,,,1.0
+Linear,TENS_Mode,Classification,,,,0.9391666666666667
+Linear,TENS_Intensity,Classification,,,,0.9925
+Linear,TENS_Electrode_Placement,Classification,,,,1.0

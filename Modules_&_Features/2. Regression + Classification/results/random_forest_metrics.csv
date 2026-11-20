@@ -1,0 +1,14 @@
+Model,Output,Type,MAE,MSE,R2,Accuracy
+Random Forest,Heat_Temperature_C,Regression,0.23448083333333297,0.10613174749999942,0.9879787538478285,
+Random Forest,Heat_Duration_Min,Regression,0.5678500000000001,0.5836491666666668,0.9897360735757813,
+Random Forest,Vibration_Frequency_Hz,Regression,1.6633833333333332,4.828004333333333,0.9936783995536083,
+Random Forest,Vibration_Amplitude_mm,Regression,0.027812916666666673,0.001680889425,0.9930553963689099,
+Random Forest,Vibration_Duration_Min,Regression,1.2163416666666669,2.310266916666667,0.8805017184154945,
+Random Forest,TENS_Frequency_Hz,Regression,2.742366666666667,16.653059499999998,0.9906618968266058,
+Random Forest,TENS_Pulse_Width_us,Regression,5.25275,50.81410833333333,0.9881987376129374,
+Random Forest,TENS_Duration_Min,Regression,0.933775,1.6111882499999999,0.9850293546426998,
+Random Forest,Heat_Setting,Classification,,,,0.9983333333333333
+Random Forest,Vibration_Pattern,Classification,,,,1.0
+Random Forest,TENS_Mode,Classification,,,,1.0
+Random Forest,TENS_Intensity,Classification,,,,1.0
+Random Forest,TENS_Electrode_Placement,Classification,,,,1.0

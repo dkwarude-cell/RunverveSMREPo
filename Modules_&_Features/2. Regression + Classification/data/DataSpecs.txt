@@ -1,0 +1,134 @@
+SMARTHEAL THERAPY DATASET - SPECIFICATIONS
+==========================================
+
+File        : Dataset.csv
+Rows        : 6,000 patients (one row = one patient)
+Columns     : 24  (1 ID + 5 body inputs + 5 pain inputs + 13 therapy outputs)
+Missing     : none
+Type        : SYNTHETIC data, made only for demonstration and academic purposes.
+              It is NOT real patient data and NOT prescribed by doctors.
+
+
+1. WHERE THE DATA IDEAS COME FROM
+---------------------------------
+- Personal_Health_Data.csv            -> realistic ranges for age, BMI, body fat, skin temperature, diabetes
+- Wearable_Sports_Health_Dataset.csv  -> realistic skin/body temperature range
+- Pain_Logs.csv                       -> realistic pain level distribution (1-10), pain duration,
+                                         pain types (burning/tingling/shooting = nerve pain,
+                                         aching/dull = stiffness, cramping = muscle spasm)
+- Therapy_Guidelines PDF              -> ALL heat, vibration and TENS parameter ranges
+
+The values were generated randomly but follow the ranges and patterns of these datasets.
+The therapy outputs are then decided by simple rules taken from the PDF.
+
+
+2. INPUT COLUMNS (10 numeric)
+-----------------------------
+A) User body specs (5)
+
+  Column               Range       Mean   Meaning
+  Age                  18 - 85     51.4   years
+  BMI                  16 - 45     26.1   body mass index (kg/m2)
+  Body_Fat_Percent     6 - 55      32.3   body fat %
+  Skin_Temperature_C   32 - 38     34.5   skin temperature in °C (from a wearable)
+  Diabetic             0 / 1       -      0 = No, 1 = Yes (882 diabetic patients, 14.7 %)
+
+B) Pain profile (5)
+
+  Column               Range       Mean   Meaning
+  Pain_Level           1 - 10      4.8    how bad the pain is
+  Pain_Duration_Weeks  0 - 104     23.4   how long the pain has lasted
+                                          (12 weeks or more = CHRONIC pain, 2,051 patients)
+  Neuropathic_Score    0 - 3       0.5    nerve-pain signs: count of burning, tingling, shooting
+                                          (2 or more = nerve pain, 711 patients)
+  Stiffness_Level      0 - 10      4.6    joint / muscle stiffness
+  Muscle_Spasm_Level   0 - 10      3.5    muscle cramping / spasm
+
+
+3. OUTPUT COLUMNS (13 therapy parameters)
+-----------------------------------------
+HEAT (3)
+  Heat_Setting            Low / Medium / High          (3,892 / 1,681 / 427)
+  Heat_Temperature_C      37 - 48 °C
+  Heat_Duration_Min       10 - 40 minutes
+
+VIBRATION (4)
+  Vibration_Frequency_Hz  5 - 20 (Low) | 20 - 50 (Mid) | 100 - 150 (High)   (2,347 / 3,095 / 558)
+  Vibration_Amplitude_mm  0.2 - 0.5 (Low) | 1.0 - 2.0 (High)                (4,476 / 1,524)
+  Vibration_Pattern       Intermittent (5s on/2s off) / Stochastic Resonance (5,289 / 711)
+  Vibration_Duration_Min  10 - 30 minutes
+
+TENS (6)
+  TENS_Mode               Conventional / AL-TENS / Burst                     (3,949 / 1,063 / 988)
+  TENS_Frequency_Hz       80 - 150 (Conventional) | 2 - 10 (AL-TENS) | 100 (Burst)
+  TENS_Pulse_Width_us     50 - 100 (Conventional) | 150 - 300 (AL-TENS) | 150 - 250 (Burst)
+  TENS_Intensity          Strong But Comfortable / Motor Threshold
+  TENS_Duration_Min       20 - 60 minutes
+  TENS_Electrode_Placement  Local / Dermatomal
+
+
+4. RULES USED TO DECIDE THE THERAPY (from the PDF)
+--------------------------------------------------
+HEAT
+  High   (46.5 - 48 °C, 10 - 15 min) : pain 7 or more, pain lasting 2+ weeks, not diabetic,
+                                       no nerve-pain signs, age under 60, skin below 36.5 °C
+                                       (PDF: "above 46 °C, use with extreme care, 15 min maximum")
+  Low    (37 - 40 °C, 30 - 40 min)   : diabetic, OR nerve pain (score 2+), OR age 75+,
+                                       OR pain 3 or less, OR skin 37.5 °C or warmer,
+                                       OR chronic pain with stiffness 6+
+                                       (PDF: "long sessions, deep joint stiffness, chronic aches")
+  Medium (40 - 46 °C, 20 - 25 min)   : everyone else
+                                       (PDF: "general muscle soreness, mild spasms")
+  Age 65+ : temperature kept at 43 °C or below (older skin is more sensitive).
+  Safety  : no High heat for pain under 2 weeks old (a fresh injury may swell more with heat),
+            and only Low heat when the skin is already warm (37.5 °C+ can mean inflammation).
+  Inside each range, higher pain and higher body fat give a slightly higher temperature.
+
+VIBRATION
+  Frequency Low  (5 - 20 Hz)    : nerve pain, OR diabetic, OR age 70+
+                                  (PDF: balance, proprioception, circulation)
+  Frequency High (100 - 150 Hz) : chronic pain, pain 6 or less, spasm 4 or less, age under 55
+                                  (PDF: tonic vibration reflex, motor rehab)
+  Frequency Mid  (20 - 50 Hz)   : everyone else (PDF: pain relief, spasticity reduction)
+  Amplitude High (1.0 - 2.0 mm) : BMI 25+ or body fat 28+, AND stiffness or spasm 4+,
+                                  AND no nerve pain, AND age under 65 (PDF: deep tissue)
+  Amplitude Low  (0.2 - 0.5 mm) : everyone else (PDF: nerve pathways)
+  Pattern  : Stochastic Resonance if nerve pain (PDF: "waking up" damaged nerves),
+             otherwise Intermittent 5 s on / 2 s off (PDF: prevents habituation)
+  Duration : 10 - 30 min (PDF: 0 - 30 min); longer for chronic pain, shorter for age 65+
+
+TENS
+  Conventional : pain lasting less than 12 weeks (acute)
+                 80 - 150 Hz, 50 - 100 us, Strong But Comfortable, 20 - 30 min
+  AL-TENS      : chronic pain, age under 65, pain 7 or less, no nerve pain
+                 2 - 10 Hz, 150 - 300 us, Motor Threshold, 30 - 60 min
+  Burst        : other chronic pain (more comfortable than AL-TENS)
+                 100 Hz bursts (2 - 4 bursts/s), 150 - 250 us, Motor Threshold, 20 - 40 min
+  Placement    : Dermatomal if nerve pain, otherwise Local (PDF electrode placement table)
+  Higher pain -> higher frequency in the range; higher body fat -> wider pulse (deeper current);
+  longer pain duration -> longer session.
+
+A small random variation (about 7 % of each range) is added to the exact values, the way two
+therapists might pick slightly different settings. All values always stay inside the PDF ranges.
+
+
+5. HOW TO USE IT FOR TRAINING
+-----------------------------
+  Inputs (X) : the 10 input columns (Age ... Muscle_Spasm_Level). Do not use Patient_ID.
+  Outputs (y):
+    - Number outputs -> regression (Linear Regression, Random Forest, Gradient Boosting)
+      Heat_Temperature_C, Heat_Duration_Min, Vibration_Frequency_Hz, Vibration_Amplitude_mm,
+      Vibration_Duration_Min, TENS_Frequency_Hz, TENS_Pulse_Width_us, TENS_Duration_Min
+      Metrics: MAE, MSE, R2
+    - Text outputs -> classification
+      Heat_Setting, Vibration_Pattern, TENS_Mode, TENS_Intensity, TENS_Electrode_Placement
+      Metric: accuracy
+  Suggested split: 80 % train / 20 % test (random_state = 42).
+
+
+6. LIMITATIONS (mention in the report)
+--------------------------------------
+- Synthetic data: the therapy outputs come from guideline rules, not from real doctors.
+- The models will learn these rules; real clinical use would need testing with medical experts.
+- Pacemakers, pregnancy, epilepsy, open wounds and fresh injuries are not covered;
+  the app must ask about these and advise the user to consult a doctor.

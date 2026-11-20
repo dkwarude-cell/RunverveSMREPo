@@ -1,0 +1,14 @@
+Model,Output,Type,MAE,MSE,R2,Accuracy
+Gradient Boosting,Heat_Temperature_C,Regression,0.6997322097122979,0.8773198468763955,0.9006284351109305,
+Gradient Boosting,Heat_Duration_Min,Regression,1.5861550578723114,5.277006933999209,0.9071997117377998,
+Gradient Boosting,Vibration_Frequency_Hz,Regression,5.899638947017983,94.95971156154543,0.8756634597752653,
+Gradient Boosting,Vibration_Amplitude_mm,Regression,0.11505591210392065,0.02205912132521716,0.9088626225048924,
+Gradient Boosting,Vibration_Duration_Min,Regression,1.1717572277004387,2.170157643068077,0.8877488539340352,
+Gradient Boosting,TENS_Frequency_Hz,Regression,4.475960006007743,32.59164002222981,0.981724433452141,
+Gradient Boosting,TENS_Pulse_Width_us,Regression,5.314075230711534,53.215540728720676,0.9876410197914054,
+Gradient Boosting,TENS_Duration_Min,Regression,1.093236691848623,2.4819472573231596,0.9769385407416489,
+Gradient Boosting,Heat_Setting,Classification,,,,1.0
+Gradient Boosting,Vibration_Pattern,Classification,,,,1.0
+Gradient Boosting,TENS_Mode,Classification,,,,1.0
+Gradient Boosting,TENS_Intensity,Classification,,,,1.0
+Gradient Boosting,TENS_Electrode_Placement,Classification,,,,1.0
