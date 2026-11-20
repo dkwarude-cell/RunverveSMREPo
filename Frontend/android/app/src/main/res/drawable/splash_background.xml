@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Launch screen: brand red with the glowing logo centred (splash_logo is 1152x1152 px in xxxhdpi = 288x288 dp - the Android 12+ splash icon size, also used by the JS SplashScreen) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+    <item>
+        <bitmap android:src="@drawable/splash_logo" android:gravity="center" />
+    </item>
+</layer-list>

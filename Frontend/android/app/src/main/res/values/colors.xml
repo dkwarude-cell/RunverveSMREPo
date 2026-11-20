@@ -1,0 +1,5 @@
+<resources>
+    <color name="app_background">#FFFFFF</color>
+    <!-- Launch screen red (same as the JS SplashScreen) -->
+    <color name="splash_background">#EF4444</color>
+</resources>
